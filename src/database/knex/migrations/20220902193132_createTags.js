@@ -1,4 +1,4 @@
-exports.up = knex => knex.schema.createTable('Genres', table => {
+exports.up = knex => knex.schema.createTable('tags', table => {
   table.increments('id');
   table.text('name');
   table.integer('note_id').references('id').inTable('Movies').onDelete('CASCADE');
@@ -6,4 +6,4 @@ exports.up = knex => knex.schema.createTable('Genres', table => {
 });
 
 
-exports.down = knex => knex.schema.dropTable('Genres');
+exports.down = knex => knex.schema.dropTable('tags');

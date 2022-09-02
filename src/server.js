@@ -1,7 +1,7 @@
 const express = require('express');
-const sqliteConnection = require('./database/sqlite/index');
+const migrationsRun = require('./database/sqlite/migrations');
 
-sqliteConnection();
+migrationsRun();
 
 const app = express();
 app.use(express.json());
