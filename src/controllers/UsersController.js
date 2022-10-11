@@ -4,7 +4,7 @@ const knex = require('../database/knex');
 
 class UsersController {
   async create(request, response) {
-    const { name, email, password, avatar } = request.body;
+    const { name, email, password } = request.body;
 
     const checkUserExists = await knex('users').where('email', email).first();
 
@@ -17,15 +17,14 @@ class UsersController {
     await knex('users').insert({
       name,
       email,
-      password: hashedPassword,
-      avatar
+      password: hashedPassword
     });
 
     return response.status(201).json();
   };
 
   async update(request, response) {
-    const { name, email, password, old_password, avatar } = request.body;
+    const { name, email, password, old_password } = request.body;
     const user_id = request.user.id;
 
     const user = await knex('users').where('id', user_id).first();
@@ -57,7 +56,6 @@ class UsersController {
     await knex('users').where('id', user_id).update({
       name,
       email,
-      avatar,
       password: user.password
     });
 
