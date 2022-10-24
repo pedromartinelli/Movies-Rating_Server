@@ -39,18 +39,30 @@ class UsersController {
       throw new AppError('Esse e-mail já está cadastrado.');
     };
 
-    if (password && !old_password) {
-      throw new AppError('Você precisa informar a senha antiga.');
+    if (password && !old_password || !old_password) {
+      throw new AppError('Você precisa informar a senha atual.');
     };
 
-    if (password && old_password) {
+    if (old_password) {
       const checkOldPassword = await compare(old_password, user.password);
 
       if (!checkOldPassword) {
-        throw new AppError('A senha antiga não confere.');
-      };
+        throw new AppError('A senha atual não confere.');
+      }
+    };
 
-      user.password = await hash(password, 8);
+    if (password && old_password) {
+      if (password.length < 8) {
+        throw new AppError('A nova senha deve ter no mínimo 8 caracteres.')
+
+      } else {
+        const checkOldPassword = await compare(old_password, user.password);
+
+        if (!checkOldPassword) {
+          throw new AppError('A senha atual não confere.');
+        };
+        user.password = await hash(password, 8);
+      }
     };
 
     await knex('users').where('id', user_id).update({
