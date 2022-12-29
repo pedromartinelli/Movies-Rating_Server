@@ -2,3 +2,5 @@ node_modules
 database.db
 src/sqlite/migrations
 .env
+jest.config.js
+mytest.spec.js
